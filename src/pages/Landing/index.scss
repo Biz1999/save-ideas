@@ -1,0 +1,29 @@
+#landing {
+  .lateral-logo {
+    background-color: rgb(10, 10, 10);
+    color: white;
+    width: 60vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 600;
+    font-size: 1.8rem;
+    transition: 0.5s all ease-in-out;
+
+    &:hover {
+      font-size: 1.6rem;
+      img {
+        width: 450px;
+      }
+    }
+
+    img {
+      margin-bottom: -50px;
+      width: 400px;
+      transition: 0.5s all ease-in-out;
+    }
+  }
+}
