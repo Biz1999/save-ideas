@@ -11,7 +11,7 @@ function App() {
             {/* <Route path="/users">
             <Users />
           </Route> */}
-            <Route path="/">
+            <Route exact path="/">
               <Landing />
             </Route>
           </Switch>
