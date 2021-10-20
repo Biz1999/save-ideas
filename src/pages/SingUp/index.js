@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { supabase } from "../../assets/apis/supabaseClient.js";
 import { useAuth } from "../../contexts/Auth";
 
 import "./index.scss";
@@ -19,17 +18,17 @@ function SignUp() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log(emailRef.current.value);
+    console.log(passwordRef.current.value);
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    // Calls `signUp` function from the context
     const { error } = await signUp({ email, password });
 
     if (error) {
-      alert("error signing in");
+      alert("error signup in");
     } else {
-      // Redirect user to Dashboard
       history.push("/");
     }
   };
@@ -50,14 +49,12 @@ function SignUp() {
             className="inputField"
             type="email"
             placeholder="Your email"
-            // onChange={(e) => setEmail(e.target.value)}
             ref={emailRef}
           ></input>
           <input
             className="inputField"
             type="password"
             placeholder="Your password"
-            // onChange={(e) => setPassword(e.target.value)}
             ref={passwordRef}
           ></input>
           <button type="submit" className={"button block"} disabled={loading}>
