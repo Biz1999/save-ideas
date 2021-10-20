@@ -7,7 +7,17 @@ function Landing() {
     <div id="landing">
       <div class="lateral-logo">
         <img src={LooneyLogo} alt="" />
-        <h1>SAVE IDEAS</h1>
+        <div className="title">
+          <h1>SAVE IDEAS</h1>
+          <h3>save your ideas forever you want</h3>
+        </div>
+      </div>
+      <div className="login">
+        <form className="form-login">
+          <h3>Please enter with your email to sign in</h3>
+          <input placeholder="Email" type="email"></input>
+          <button>Login</button>
+        </form>
       </div>
     </div>
   );
