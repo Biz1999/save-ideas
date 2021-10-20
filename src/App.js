@@ -1,21 +1,30 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-import Landing from "./pages/Landing";
+import { supabase } from "./assets/apis/supabaseClient";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import SignUp from "./pages/SingUp";
 
 function App() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    setSession(supabase.auth.session());
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   return (
     <div className="App">
       <Router>
-        <div>
-          <Switch>
-            {/* <Route path="/users">
-            <Users />
-          </Route> */}
-            <Route exact path="/">
-              <Landing />
-            </Route>
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/login" component={Login} />
+        </Switch>
       </Router>
     </div>
   );
