@@ -1,11 +1,12 @@
-#landing {
+#login-page {
   display: flex;
   flex-direction: row;
 
   .lateral-logo,
   .login,
   .form-login,
-  .title {
+  .title,
+  .gotoSignUp {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,7 +54,8 @@
       width: 70%;
 
       input,
-      button {
+      button,
+      .gotoSignUp {
         font-family: "Roboto", sans-serif;
         font-weight: 600;
         border: 1px solid rgba(0, 0, 0, 0.404);
@@ -80,6 +82,18 @@
         &:hover {
           background: rgba(255, 0, 0, 0.822);
           border: none;
+        }
+      }
+
+      .gotoSignUp {
+        background-color: rgb(55, 218, 49);
+        border: none;
+        color: cornsilk;
+        transition: 0.3s all ease-in-out;
+        text-decoration: none;
+
+        &:visited {
+          text-decoration: none;
         }
       }
     }
