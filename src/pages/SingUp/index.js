@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
+import { Link, useHistory } from "react-router-dom";
+
 import { supabase } from "../../assets/apis/supabaseClient.js";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/Auth";
 
 import "./index.scss";
 import LooneyLogo from "../../assets/images/looney-idea.png";
@@ -8,23 +10,28 @@ import LooneyLogo from "../../assets/images/looney-idea.png";
 function SignUp() {
   const [loading, setLoading] = useState(false);
   const [sended, setSended] = useState(false);
-  const [email, setEmail] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [password, setPassword] = useState("");
 
-  const handleLogin = async (email) => {
-    // try {
-    //   setLoading(true);
-    //   const { error } = await supabase.auth.signIn({ email });
-    //   setSended(true);
-    //   if (error) throw error;
-    // } catch (error) {
-    //   alert(error.error_description || error.message);
-    //   setSended(false);
-    // } finally {
-    //   setLoading(false);
-    // }
+  const { signUp } = useAuth();
+
+  const history = useHistory();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    // Calls `signUp` function from the context
+    const { error } = await signUp({ email, password });
+
+    if (error) {
+      alert("error signing in");
+    } else {
+      // Redirect user to Dashboard
+      history.push("/");
+    }
   };
 
   return (
@@ -37,7 +44,7 @@ function SignUp() {
         </div>
       </div>
       <div className="login">
-        <form className="form-login" onSubmit={handleLogin(email)}>
+        <form className="form-login" onSubmit={handleLogin}>
           <h3>Please enter with your email to sign in</h3>
           <input
             className="inputField"
