@@ -1,0 +1,146 @@
+#dashboard {
+  header.welcome-message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #111;
+    color: white;
+    padding: 0 150px 0 150px;
+    height: 10vh;
+
+    .title {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      font-size: 1.8rem;
+      width: 60%;
+      display: flex;
+      align-items: center;
+    }
+
+    .user-name {
+      font-family: "Roboto", sans-serif;
+      font-weight: 300px;
+    }
+
+    button {
+      background: rgb(255, 42, 42);
+      color: black;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      font-family: "Roboto", sans-serif;
+      font-weight: 300px;
+      width: 75px;
+      height: 30px;
+      margin-left: -80px;
+      transition: 0.2s all ease-in-out;
+
+      &:hover {
+        background: none;
+        color: white;
+        border: 1px solid white;
+      }
+    }
+  }
+
+  main {
+    background: rgb(29, 29, 29);
+    height: 90vh;
+    padding: 50px 150px;
+    color: white;
+
+    button {
+      background: rgb(31, 255, 80);
+      border: none;
+      outline: none;
+      height: 35px;
+      min-width: 100px;
+      width: fit-content;
+      transition: 0.2s all ease-in-out;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px 0 10px;
+      border-radius: 6px;
+
+      &:hover {
+        border: 1px solid rgb(31, 255, 80);
+        color: rgb(31, 255, 80);
+        background: none;
+      }
+
+      p {
+        margin-left: 10px;
+      }
+    }
+
+    .react-tabs {
+      position: relative;
+      &__tab-list {
+        button {
+          position: absolute;
+          right: 0;
+          top: -10px;
+        }
+      }
+
+      button.sort-button {
+        background: rgb(255, 42, 42);
+        position: absolute;
+        right: 0;
+        top: 43px;
+
+        &:hover {
+          background: none;
+          color: red;
+          border: 1px solid red;
+        }
+      }
+
+      .idea {
+        padding: 5px 20px 5px 20px;
+        border: none;
+        border-radius: 0 15px 0 15px;
+        margin-top: 15px;
+        transition: 0.2s all ease-in-out;
+        cursor: pointer;
+        &:hover {
+          background: white;
+          color: black;
+        }
+
+        &__main-info {
+          display: flex;
+          flex-direction: row;
+          height: 50px;
+          align-items: center;
+          position: relative;
+
+          svg {
+            position: absolute;
+            right: 0;
+            margin-right: 20px;
+            transition: 0.2s fill ease-in-out;
+
+            &:hover {
+              fill: red;
+            }
+          }
+
+          h3 {
+            font-size: 1rem;
+            margin-left: 20px;
+          }
+        }
+
+        &__short-descript {
+          margin-top: -10px;
+          height: 25px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
