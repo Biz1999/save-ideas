@@ -1,9 +1,12 @@
 import { useHistory } from "react-router";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { BiPlus } from "react-icons/bi";
+import { BiPlus, BiSortDown } from "react-icons/bi";
+import IdeaCard from "../../components/IdeaCard";
+
 import "react-tabs/style/react-tabs.css";
 
 import { useAuth } from "../../contexts/Auth";
+import "./index.scss";
 
 export default function Dashboard() {
   const { user, signOut } = useAuth();
@@ -31,8 +34,8 @@ export default function Dashboard() {
                 console.log("clicou");
               }}
             >
-              <BiPlus />
-              Add group
+              <BiPlus size="1.5em" />
+              <p>Add group</p>
             </button>
           </TabList>
           <button
@@ -40,15 +43,23 @@ export default function Dashboard() {
               console.log("clicou dnv vei");
             }}
           >
-            <BiPlus />
-            Add idea
+            <BiPlus size="1.5em" />
+            <p>Add idea </p>
+          </button>
+          <button className="sort-button">
+            <BiSortDown size="1.5em" />
+            <p>Sort </p>
           </button>
           <TabPanel>
-            <h2>Any content 1</h2>
+            <IdeaCard />
+            <IdeaCard />
+            <IdeaCard />
           </TabPanel>
           <TabPanel>
-            <h2>Any content 2</h2>
-            <h2>Any content 3</h2>
+            <IdeaCard />
+            <IdeaCard />
+            <IdeaCard />
+            <IdeaCard />
           </TabPanel>
         </Tabs>
       </main>
