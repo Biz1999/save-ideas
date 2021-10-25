@@ -56,7 +56,7 @@ function Login() {
             ref={passwordRef}
           ></input>
           <button type="submit" className={"button block"} disabled={loading}>
-            {loading ? <span>Loading</span> : <span>Login</span>}
+            <span>Login</span>
           </button>
           <Link to="/signup" className="gotoSignUp">
             Sign Up

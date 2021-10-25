@@ -1,0 +1,82 @@
+#category_popup {
+  z-index: 3;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.hidden {
+    display: none;
+  }
+
+  .background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.712);
+    backdrop-filter: blur(1.5px);
+  }
+
+  h3 {
+    z-index: 4;
+  }
+
+  .function-return {
+    color: black;
+  }
+
+  form {
+    z-index: 4;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    width: 50%;
+    min-height: 30%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0 20px 0;
+
+    input,
+    textarea {
+      width: 400px;
+      height: 30px;
+      margin-bottom: 20px;
+      border: 1px solid rgb(61, 61, 61);
+      border-radius: 5px;
+      padding: 5px 10px 5px 10px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    label {
+      color: black;
+      width: 70%;
+      margin-bottom: 8px;
+    }
+
+    button {
+      background: black;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      width: 100px;
+      height: 35px;
+      transition: 0.2s all ease-in-out;
+      &:hover {
+        border: 2px solid black;
+        background: none;
+        color: black;
+      }
+    }
+  }
+}

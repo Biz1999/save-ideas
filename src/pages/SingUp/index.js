@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { useAuth } from "../../contexts/Auth";
+import { supabase } from "../../assets/apis/supabaseClient";
 
 import "./index.scss";
 import LooneyLogo from "../../assets/images/looney-idea.png";
@@ -11,24 +12,26 @@ function SignUp() {
   const [sended, setSended] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
+  const nameRef = useRef();
 
   const { signUp } = useAuth();
 
   const history = useHistory();
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log(emailRef.current.value);
-    console.log(passwordRef.current.value);
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const username = nameRef.current.value.trim();
 
     const { error } = await signUp({ email, password });
-
     if (error) {
       alert("error signup in");
     } else {
+      const { data, error } = await supabase
+        .from("profiles")
+        .insert({ name: username, email: email });
       history.push("/");
     }
   };
@@ -43,8 +46,14 @@ function SignUp() {
         </div>
       </div>
       <div className="login">
-        <form className="form-login" onSubmit={handleLogin}>
-          <h3>Please enter with your email to sign in</h3>
+        <form className="form-login" onSubmit={handleSignup}>
+          <h3>Please enter with your information to sign in</h3>
+          <input
+            className="inputField"
+            type="text"
+            placeholder="Your Name"
+            ref={nameRef}
+          ></input>
           <input
             className="inputField"
             type="email"
