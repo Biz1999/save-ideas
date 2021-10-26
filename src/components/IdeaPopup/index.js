@@ -8,24 +8,24 @@ import "./index.scss";
 function IdeaPopup(props) {
   const { user, signOut } = useAuth();
   const [message, setMessage] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState();
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState();
   const titleRef = useRef();
   const contentRef = useRef();
-  const categoryRef = useRef();
 
   const handleSaveIdea = async (e) => {
     e.preventDefault();
 
     const title = titleRef.current.value;
     const content = contentRef.current.value;
-    const category = categoryRef.current.value;
+    const category = selectedCategory;
 
-    const { data, error } = await supabase.from("ideas").insert({
+    setLoading(true);
+    const { error } = await supabase.from("ideas").insert({
       title: title,
       content_idea: content,
-      category: category,
-      owner_idea: props.user[0].user_id,
+      category_id: category.category_id,
+      owner_idea: user.id,
     });
 
     if (error) {
@@ -39,19 +39,31 @@ function IdeaPopup(props) {
         setMessage("");
       }, 3000);
     }
+    setLoading(false);
+  };
+
+  const changeEvent = (event) => {
+    const selected = props.categories.find(
+      (element) => element.category === event.target.value
+    );
+
+    setSelectedCategory(selected);
   };
 
   const closePopup = (e) => {
     $("#idea_popup").addClass("hidden");
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    // async function renderData() {
     $("#idea_popup").addClass("hidden");
-    const { data, error } = await supabase
-      .from("categories")
-      .select()
-      .eq("owner_category", props.user[0].user_id);
-    setCategories(data);
+    //   const { data, error } = await supabase
+    //     .from("categories")
+    //     .select()
+    //     .eq("owner_category", user.id);
+    //   setCategories(data);
+    // }
+    // renderData();
   }, []);
 
   return (
@@ -72,18 +84,21 @@ function IdeaPopup(props) {
           placeholder="your idea"
           ref={contentRef}
         />
-        <select name="categories" id="categories" ref={categoryRef}>
+        <select
+          name="categories"
+          id="categories"
+          onChange={(event) => changeEvent(event)}
+        >
           <option defaultValue="" disabled selected hidden>
-            Select category
+            Select a category
           </option>
-          {categories &&
-            categories.map((category, index) => {
-              return (
-                <option value={category.category} key={index}>
-                  {category.category}
-                </option>
-              );
-            })}
+          {props?.categories.map((category, index) => {
+            return (
+              <option value={category.category} key={index}>
+                {category.category}
+              </option>
+            );
+          })}
         </select>
         <button type="submit" className={"button block"} disabled={loading}>
           {loading ? <span>Loading</span> : <span>save idea</span>}

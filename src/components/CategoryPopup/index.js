@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import $ from "jquery";
 import { supabase } from "../../assets/apis/supabaseClient";
+import { useAuth } from "../../contexts/Auth";
 
 import "./index.scss";
 
 function CategoryPopup(props) {
+  const { user } = useAuth();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const categoryRef = useRef();
@@ -16,10 +18,11 @@ function CategoryPopup(props) {
 
     const { data, error } = await supabase.from("categories").insert({
       category: category,
-      owner_category: props.user[0].user_id,
+      owner_id: user.id,
     });
 
     if (error) {
+      console.log(error);
       setMessage("Have a problem when trying to save your idea!");
     } else {
       setMessage("your categorie was created with success!!");

@@ -14,10 +14,9 @@ import "./index.scss";
 
 export default function Dashboard() {
   const { user, signOut } = useAuth();
-  const [user_data, setUser_data] = useState();
   const history = useHistory();
-  const [categories, setCategories] = useState();
-  const [ideas, setIdeas] = useState();
+  const [ideas, setIdeas] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   async function handleSignOut() {
     await signOut();
@@ -26,42 +25,28 @@ export default function Dashboard() {
 
   async function getUserData() {
     const { data, error } = await supabase
-      .from("profiles")
-      .select()
-      .eq("email", user.email);
-    setUser_data(data);
-  }
-
-  async function getCategories() {
-    const { data, error } = await supabase
       .from("categories")
-      .select()
-      .eq("owner_category", user_data[0].user_id);
+      .select(
+        `category_id,
+        category,
+        ideas(
+          idea_id,
+          title,
+          content_idea,
+          created_at
+        )
+        `
+      )
+      .eq("owner_id", user.id);
     setCategories(data);
-  }
-
-  async function getIdeas() {
-    categories.map(async (category) => {
-      const { data, error } = await supabase
-        .from("ideas")
-        .select()
-        .eq("owner_idea", user_data[0].user_id)
-        .eq("category", category.category);
-      setIdeas((oldAa) => [...ideas, data]);
+    data.forEach((category) => {
+      setIdeas((prevState) => [...prevState, ...category.ideas]);
     });
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     getUserData();
   }, []);
-
-  useEffect(async () => {
-    user_data && getCategories();
-  }, [user_data]);
-
-  useEffect(async () => {
-    categories && getIdeas();
-  }, [categories]);
 
   const openPopupIdea = () => {
     $("#idea_popup").removeClass("hidden");
@@ -72,25 +57,20 @@ export default function Dashboard() {
 
   return (
     <div id="dashboard">
-      {user_data && <IdeaPopup user={user_data} />}
-      {user_data && <CategoryPopup user={user_data} />}
+      {<IdeaPopup categories={categories} />}
+      {<CategoryPopup />}
       <header className="welcome-message">
         <h3 className="title">Save Ideas</h3>
-        {user_data ? (
-          <p className="user-name">welcome, {user_data[0].name}</p>
-        ) : (
-          <p></p>
-        )}
+        {user ? <p className="user-name">welcome, {user.email}</p> : <p></p>}
         <button onClick={handleSignOut}>Sign out</button>
       </header>
       <main className="dashboard-main">
         <Tabs>
           <TabList>
             <Tab>All Ideas</Tab>
-            {categories &&
-              categories.map((category, index) => {
-                return <Tab key={index}>{category.category}</Tab>;
-              })}
+            {categories?.map((category, index) => {
+              return <Tab key={index}>{category.category}</Tab>;
+            })}
             <button onClick={openPopupCategory}>
               <BiPlus size="1.5em" />
               <p>Add group</p>
@@ -105,29 +85,19 @@ export default function Dashboard() {
             <p>Sort </p>
           </button>
           <TabPanel>
-            <IdeaCard />
-            <IdeaCard />
-            <IdeaCard />
+            {ideas?.map((idea) => (
+              <IdeaCard idea={idea} key={idea.idea_id} />
+            ))}
           </TabPanel>
-          {ideas &&
-            categories.map((category, index) => {
-              // console.log(ideas[index]);
-              return (
-                <TabPanel>
-                  {/* {ideas[index].map((idea) => {
-                    <IdeaCard />;
-                  })} */}
-                </TabPanel>
-              );
-            })}
-          {/* {ideas &&
-            ideas.map((category) => {
-              return (
-                <TabPanel>
-                  <IdeaCard />
-                </TabPanel>
-              );
-            })} */}
+          {categories?.map((category, index) => {
+            return (
+              <TabPanel>
+                {category?.ideas?.map((idea) => (
+                  <IdeaCard idea={idea} key={idea.idea_id} />
+                ))}
+              </TabPanel>
+            );
+          })}
         </Tabs>
       </main>
     </div>
